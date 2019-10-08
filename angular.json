@@ -1,0 +1,339 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "ngx-admin-demo": {
+      "root": "",
+      "sourceRoot": "src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "preserveSymlinks": true,
+            "rebaseRootRelativeCssUrls": true,
+            "outputPath": "dist",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "tsConfig": "src/tsconfig.app.json",
+            "polyfills": "src/polyfills.ts",
+            "assets": [
+              "src/assets",
+              "src/favicon.ico",
+              "src/favicon.png",
+              {
+                "glob": "**/*",
+                "input": "node_modules/leaflet/dist/images",
+                "output": "/assets/img/markers"
+              }
+            ],
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/typeface-exo/index.css",
+              "node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
+              "node_modules/ionicons/scss/ionicons.scss",
+              "node_modules/@fortawesome/fontawesome-free/css/all.css",
+              "node_modules/socicon/css/socicon.css",
+              "node_modules/nebular-icons/scss/nebular-icons.scss",
+              "node_modules/angular-tree-component/dist/angular-tree-component.css",
+              "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
+              "node_modules/leaflet/dist/leaflet.css",
+              "src/app/@theme/styles/styles.scss"
+            ],
+            "scripts": [
+              "node_modules/pace-js/pace.min.js",
+              "node_modules/tinymce/tinymce.min.js",
+              "node_modules/tinymce/themes/modern/theme.min.js",
+              "node_modules/tinymce/plugins/link/plugin.min.js",
+              "node_modules/tinymce/plugins/paste/plugin.min.js",
+              "node_modules/tinymce/plugins/table/plugin.min.js",
+              "node_modules/echarts/dist/echarts.min.js",
+              "node_modules/echarts/dist/extension/bmap.min.js",
+              "node_modules/chart.js/dist/Chart.min.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ngx-admin-demo:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ngx-admin-demo:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ngx-admin-demo:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "src/tsconfig.spec.json",
+            "scripts": [
+              "node_modules/pace-js/pace.min.js",
+              "node_modules/tinymce/tinymce.min.js",
+              "node_modules/tinymce/themes/modern/theme.min.js",
+              "node_modules/tinymce/plugins/link/plugin.min.js",
+              "node_modules/tinymce/plugins/paste/plugin.min.js",
+              "node_modules/tinymce/plugins/table/plugin.min.js",
+              "node_modules/echarts/dist/echarts.min.js",
+              "node_modules/echarts/dist/extension/bmap.min.js",
+              "node_modules/chart.js/dist/Chart.min.js"
+            ],
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/typeface-exo/index.css",
+              "node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
+              "node_modules/ionicons/scss/ionicons.scss",
+              "node_modules/font-awesome/scss/font-awesome.scss",
+              "node_modules/socicon/css/socicon.css",
+              "node_modules/nebular-icons/scss/nebular-icons.scss",
+              "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
+              "src/app/@theme/styles/styles.scss"
+            ],
+            "assets": [
+              "src/assets",
+              "src/favicon.ico",
+              "src/favicon.png",
+              {
+                "glob": "**/*",
+                "input": "node_modules/leaflet/dist/images",
+                "output": "/assets/img/markers"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "src/tsconfig.app.json",
+              "src/tsconfig.spec.json"
+            ],
+            "typeCheck": true,
+            "exclude": []
+          }
+        }
+      }
+    },
+    "ngx-admin-demo-e2e": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "./protractor.conf.js",
+            "devServerTarget": "ngx-admin-demo:serve"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "e2e/tsconfig.e2e.json"
+            ],
+            "exclude": []
+          }
+        }
+      }
+    },
+    "BackOffice": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "projects/BackOffice",
+      "sourceRoot": "projects/BackOffice/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/BackOffice",
+            "index": "projects/BackOffice/src/index.html",
+            "main": "projects/BackOffice/src/main.ts",
+            "polyfills": "projects/BackOffice/src/polyfills.ts",
+            "tsConfig": "projects/BackOffice/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "projects/BackOffice/src/favicon.ico",
+              "projects/BackOffice/src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/leaflet/dist/images",
+                "output": "/assets/img/markers"
+              }
+            ],
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/typeface-exo/index.css",
+              "node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
+              "node_modules/ionicons/scss/ionicons.scss",
+              "node_modules/@fortawesome/fontawesome-free/css/all.css",
+              "node_modules/socicon/css/socicon.css",
+              "node_modules/nebular-icons/scss/nebular-icons.scss",
+              "node_modules/angular-tree-component/dist/angular-tree-component.css",
+              "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
+              "node_modules/leaflet/dist/leaflet.css",
+              "src/app/@theme/styles/styles.scss",
+              "projects/BackOffice/src/styles.css"
+            ],
+            "scripts": [
+              "node_modules/pace-js/pace.min.js",
+              "node_modules/tinymce/tinymce.min.js",
+              "node_modules/tinymce/themes/modern/theme.min.js",
+              "node_modules/tinymce/plugins/link/plugin.min.js",
+              "node_modules/tinymce/plugins/paste/plugin.min.js",
+              "node_modules/tinymce/plugins/table/plugin.min.js",
+              "node_modules/echarts/dist/echarts.min.js",
+              "node_modules/echarts/dist/extension/bmap.min.js",
+              "node_modules/chart.js/dist/Chart.min.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/BackOffice/src/environments/environment.ts",
+                  "with": "projects/BackOffice/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "BackOffice:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "BackOffice:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "BackOffice:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/BackOffice/src/test.ts",
+            "polyfills": "projects/BackOffice/src/polyfills.ts",
+            "tsConfig": "projects/BackOffice/tsconfig.spec.json",
+            "karmaConfig": "projects/BackOffice/karma.conf.js",
+            "assets": [
+              "projects/BackOffice/src/favicon.ico",
+              "projects/BackOffice/src/assets"
+            ],
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/typeface-exo/index.css",
+              "node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
+              "node_modules/ionicons/scss/ionicons.scss",
+              "node_modules/font-awesome/scss/font-awesome.scss",
+              "node_modules/socicon/css/socicon.css",
+              "node_modules/nebular-icons/scss/nebular-icons.scss",
+              "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
+              "src/app/@theme/styles/styles.scss",
+              "projects/BackOffice/src/styles.css"
+            ],
+            "scripts": [
+              "node_modules/pace-js/pace.min.js",
+              "node_modules/tinymce/tinymce.min.js",
+              "node_modules/tinymce/themes/modern/theme.min.js",
+              "node_modules/tinymce/plugins/link/plugin.min.js",
+              "node_modules/tinymce/plugins/paste/plugin.min.js",
+              "node_modules/tinymce/plugins/table/plugin.min.js",
+              "node_modules/echarts/dist/echarts.min.js",
+              "node_modules/echarts/dist/extension/bmap.min.js",
+              "node_modules/chart.js/dist/Chart.min.js"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/BackOffice/tsconfig.app.json",
+              "projects/BackOffice/tsconfig.spec.json",
+              "projects/BackOffice/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/BackOffice/e2e/protractor.conf.js",
+            "devServerTarget": "BackOffice:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "BackOffice:serve:production"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "ngx-admin-demo",
+  "schematics": {
+    "@schematics/angular:component": {
+      "prefix": "ngx",
+      "styleext": "scss"
+    },
+    "@schematics/angular:directive": {
+      "prefix": "ngx"
+    }
+  }
+}
