@@ -1,10 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
+import {
+  NbAuthService,
+  NbAuthOAuth2JWTToken,
+  NbAuthResult
+} from '@nebular/auth';
 
 import { UserData } from '../../../@core/data/users';
 import { LayoutService } from '../../../@core/utils';
-import { map, takeUntil } from 'rxjs/operators';
+import { map, takeUntil, filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-header',
@@ -38,22 +44,31 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
+  userMenu = [{ title: 'Profile' }, { title: 'Log out' }];
 
   constructor(private sidebarService: NbSidebarService,
-              private menuService: NbMenuService,
-              private themeService: NbThemeService,
-              private userService: UserData,
-              private layoutService: LayoutService,
-              private breakpointService: NbMediaBreakpointsService) {
+    private menuService: NbMenuService,
+    private themeService: NbThemeService,
+    private layoutService: LayoutService,
+    private breakpointService: NbMediaBreakpointsService,
+    private authService: NbAuthService,
+    private router: Router) {
+    this.authService.onTokenChange()
+      .subscribe((token: NbAuthOAuth2JWTToken) => {
+
+        if (token.isValid()) {
+          this.user = token.getAccessTokenPayload(); // here we receive a payload from the token and assigns it to our `user` variable 
+        }
+
+      });
   }
 
   ngOnInit() {
     this.currentTheme = this.themeService.currentTheme;
 
-    this.userService.getUsers()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((users: any) => this.user = users.nick);
+    // this.userService.getUsers()
+    //   .pipe(takeUntil(this.destroy$))
+    //   .subscribe((users: any) => this.user = users.nick);
 
     const { xl } = this.breakpointService.getBreakpointsMap();
     this.themeService.onMediaQueryChange()
@@ -69,6 +84,32 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       )
       .subscribe(themeName => this.currentTheme = themeName);
+
+    this.menuService.onItemClick()
+      .pipe(
+        filter(({ tag }) => tag === 'user-context-menu'),
+        map(({ item: { title } }) => title),
+      )
+      .subscribe(title => {
+        switch (title) {
+          case 'Log out': {
+            this.authService.logout('myAuthStrategy')
+              .subscribe((authResult: NbAuthResult) => {
+                return this.router.navigate(['/auth/login']);
+                this.user = null;
+              });
+            break;
+          }
+          case 'Profile': {
+
+            break;
+          }
+          default: {
+            //statements; 
+            break;
+          }
+        }
+      })
   }
 
   ngOnDestroy() {
