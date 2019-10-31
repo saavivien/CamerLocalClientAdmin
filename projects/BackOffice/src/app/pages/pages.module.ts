@@ -7,7 +7,8 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { ECommerceModule } from './e-commerce/e-commerce.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
-import { AuthenticationModule } from './authentication/authentication.module';
+import { FormsModule } from './forms/forms.module';
+
 
 @NgModule({
   imports: [
@@ -17,7 +18,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
     DashboardModule,
     ECommerceModule,
     MiscellaneousModule,
-    AuthenticationModule
+    FormsModule
   ],
   declarations: [
     PagesComponent,
