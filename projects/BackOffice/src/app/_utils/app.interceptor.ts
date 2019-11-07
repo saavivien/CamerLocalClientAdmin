@@ -8,6 +8,7 @@ import {
     HttpResponse,
 } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { NbAuthService, NbAuthOAuth2JWTToken } from '@nebular/auth';
 
 const TOKEN_HEADER_KEY = 'Authorization';
 const TOKEN_BEARER = 'Authorization';
@@ -15,19 +16,21 @@ const TOKEN_BEARER = 'Authorization';
 @Injectable()
 export class CamerLocalInterceptor implements HttpInterceptor {
 
-    constructor() { }
+    constructor(private authService: NbAuthService) { }
     //function which will be called for all http calls
     intercept(
         request: HttpRequest<any>,
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
-        if (sessionStorage.getItem('username') && sessionStorage.getItem('token')) {
+        if (!request.url.match('http://localhost:8080/oauth/token')) {
             request = request.clone({
                 setHeaders: {
-                    Authorization: sessionStorage.getItem('token')
+                    Authorization: "Bearer " + this.getAccessToken().getValue(),
                 }
             })
+            console.log("=================================" + request.url + "interception =====================================")
         }
+        console.log("=================================" + request.url + " out interception =====================================")
         return next.handle(request).pipe(
             tap(
                 event => {
@@ -44,6 +47,16 @@ export class CamerLocalInterceptor implements HttpInterceptor {
                 }
             )
         );
+    }
+    private getAccessToken(): NbAuthOAuth2JWTToken {
+        let accesTokenStringValue = null;
+        this.authService.getToken()
+            .subscribe((token: NbAuthOAuth2JWTToken) => {
+                if (token.isValid()) {
+                    return accesTokenStringValue = token;
+                }
+            })
+        return accesTokenStringValue;
     }
 
 }

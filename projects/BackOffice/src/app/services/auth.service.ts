@@ -13,8 +13,7 @@ export class AuthenticationService {
 
     constructor(
         private httpClient: HttpClient
-    ) {
-    }
+    ) { }
     authenticate(email: string, password: string) {
         return this.httpClient.post<any>(utils.BACKEND_API_AUTHENTICATE_PATH, { email, password }, httpOptions).pipe(
             map(

@@ -11,6 +11,7 @@ import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   NbChatModule,
   NbDatepickerModule,
@@ -24,7 +25,7 @@ import { PagesModule } from './pages/pages.module';
 import { CamerLocalInterceptor } from './_utils/app.interceptor';
 
 
-import { NbPasswordAuthStrategy, NbAuthModule, NbAuthJWTToken, NbOAuth2AuthStrategy, NbOAuth2GrantType, NbAuthOAuth2Token, NbOAuth2ClientAuthMethod, NbAuthOAuth2JWTToken } from '@nebular/auth';
+import { NbPasswordAuthStrategy, NbAuthModule, NbAuthJWTToken, NbOAuth2AuthStrategy, NbOAuth2GrantType, NbAuthOAuth2Token, NbOAuth2ClientAuthMethod, NbAuthOAuth2JWTToken, NbAuthJWTInterceptor } from '@nebular/auth';
 import * as CamerLocalUtils from './_utils/camer.local.utils';
 import { AuthGuardService } from './auth-guard.service';
 
@@ -43,6 +44,8 @@ const formSetting: any = {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
     PagesModule,
