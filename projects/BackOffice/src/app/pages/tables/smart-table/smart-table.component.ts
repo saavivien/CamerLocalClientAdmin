@@ -10,6 +10,8 @@ import { SmartTableData } from '../../../@core/data/smart-table';
 })
 export class SmartTableComponent {
 
+
+  
   settings = {
     add: {
       addButtonContent: '<i class="nb-plus"></i>',

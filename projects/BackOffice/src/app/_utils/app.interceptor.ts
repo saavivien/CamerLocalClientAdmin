@@ -8,6 +8,8 @@ import {
     HttpResponse,
 } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { NbAuthService, NbAuthOAuth2JWTToken } from '@nebular/auth';
+import { BACKEND_API_AUTHENTICATE_PATH } from './camer.local.utils';
 
 const TOKEN_HEADER_KEY = 'Authorization';
 const TOKEN_BEARER = 'Authorization';
@@ -15,16 +17,16 @@ const TOKEN_BEARER = 'Authorization';
 @Injectable()
 export class CamerLocalInterceptor implements HttpInterceptor {
 
-    constructor() { }
+    constructor(private authService: NbAuthService) { }
     //function which will be called for all http calls
     intercept(
         request: HttpRequest<any>,
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
-        if (sessionStorage.getItem('username') && sessionStorage.getItem('token')) {
+        if (!request.url.match(BACKEND_API_AUTHENTICATE_PATH)) {
             request = request.clone({
                 setHeaders: {
-                    Authorization: sessionStorage.getItem('token')
+                    Authorization: "Bearer " + this.getAccessToken().getValue(),
                 }
             })
         }
@@ -44,6 +46,16 @@ export class CamerLocalInterceptor implements HttpInterceptor {
                 }
             )
         );
+    }
+    private getAccessToken(): NbAuthOAuth2JWTToken {
+        let accesTokenStringValue = null;
+        this.authService.getToken()
+            .subscribe((token: NbAuthOAuth2JWTToken) => {
+                if (token.isValid()) {
+                    return accesTokenStringValue = token;
+                }
+            })
+        return accesTokenStringValue;
     }
 
 }
