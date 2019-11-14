@@ -1,10 +1,12 @@
+import { BACKEND_API_ROOT_URL } from '../app/_utils/camer.local.utils';
+
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
   production: false,
-  urlAddress: 'http://localhost:8080'
+  urlAddress: BACKEND_API_ROOT_URL
 };
 
 /*

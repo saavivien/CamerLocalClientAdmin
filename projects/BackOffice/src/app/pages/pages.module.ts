@@ -8,6 +8,7 @@ import { ECommerceModule } from './e-commerce/e-commerce.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import { FormsModule } from './forms/forms.module';
+import { UsersModule } from './users/users.module';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { FormsModule } from './forms/forms.module';
     DashboardModule,
     ECommerceModule,
     MiscellaneousModule,
-    FormsModule
+    FormsModule,
+    UsersModule,
   ],
   declarations: [
     PagesComponent,

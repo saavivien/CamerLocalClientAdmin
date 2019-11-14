@@ -9,6 +9,7 @@ import {
 } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { NbAuthService, NbAuthOAuth2JWTToken } from '@nebular/auth';
+import { BACKEND_API_AUTHENTICATE_PATH } from './camer.local.utils';
 
 const TOKEN_HEADER_KEY = 'Authorization';
 const TOKEN_BEARER = 'Authorization';
@@ -22,15 +23,13 @@ export class CamerLocalInterceptor implements HttpInterceptor {
         request: HttpRequest<any>,
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
-        if (!request.url.match('http://localhost:8080/oauth/token')) {
+        if (!request.url.match(BACKEND_API_AUTHENTICATE_PATH)) {
             request = request.clone({
                 setHeaders: {
                     Authorization: "Bearer " + this.getAccessToken().getValue(),
                 }
             })
-            console.log("=================================" + request.url + "interception =====================================")
         }
-        console.log("=================================" + request.url + " out interception =====================================")
         return next.handle(request).pipe(
             tap(
                 event => {

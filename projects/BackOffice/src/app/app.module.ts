@@ -21,11 +21,21 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
+import {
+  MatTableModule,
+  MatButtonModule,
+  MatIconModule
+}
+  from '@angular/material';
 import { PagesModule } from './pages/pages.module';
 import { CamerLocalInterceptor } from './_utils/app.interceptor';
-
-
-import { NbPasswordAuthStrategy, NbAuthModule, NbAuthJWTToken, NbOAuth2AuthStrategy, NbOAuth2GrantType, NbAuthOAuth2Token, NbOAuth2ClientAuthMethod, NbAuthOAuth2JWTToken, NbAuthJWTInterceptor } from '@nebular/auth';
+import {
+  NbAuthModule,
+  NbOAuth2AuthStrategy,
+  NbOAuth2GrantType,
+  NbOAuth2ClientAuthMethod,
+  NbAuthOAuth2JWTToken
+} from '@nebular/auth';
 import * as CamerLocalUtils from './_utils/camer.local.utils';
 import { AuthGuardService } from './auth-guard.service';
 
@@ -51,6 +61,10 @@ const formSetting: any = {
     PagesModule,
 
     ThemeModule.forRoot(),
+
+    MatButtonModule,
+    MatIconModule,
+    MatTableModule,
 
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
@@ -104,7 +118,11 @@ const formSetting: any = {
       },
     }),
   ],
-
+  exports: [
+    MatButtonModule,
+    MatIconModule,
+    MatTableModule,
+  ],
   bootstrap: [AppComponent],
   providers: [
     AuthGuardService,
