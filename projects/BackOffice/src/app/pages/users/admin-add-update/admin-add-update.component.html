@@ -1,0 +1,135 @@
+<!-- <div class="col-lg-6 text-center"> -->
+<form (ngSubmit)="submitAdminData()" [formGroup]="adminForm" size="large">
+  <nb-card>
+    <nb-card-header>Default Inputs</nb-card-header>
+    <nb-card-body class="overflow-auto">
+      <!-- Title -->
+      <div class="full-name-inputs">
+        <label class="label" for="title-input">Title : </label>
+        <nb-select id="title-input" placeholder="select a title" class="example-items-col" formControlName="title">
+          <nb-option *ngFor="let title of titles" [value]="title">{{title}}</nb-option>
+        </nb-select>
+        <label class="label" for="title-input">Role : </label>
+        <nb-select multiple id="title-input" placeholder="select a role" class="example-items-col"
+          formControlName="roles">
+          <nb-option *ngFor="let role of roles" [value]="role">{{role.displayedName}}</nb-option>
+        </nb-select>
+      </div>
+
+      <!-- names -->
+      <div class="form-group">
+        <label class="label" for="firstname-input">Firstname:</label>
+        <input type="text" nbInput fullWidth placeholder="Firstname" name="firstname" id="firstname-input"
+          formControlName="firstName" [ngClass]="{'is-invalid': f.firstName.touched && f.firstName.errors}">
+        <ng-container *ngIf="f.firstName.touched && f.firstName.errors">
+          <p class="caption status-danger" *ngIf="f.firstName.errors.required">
+            Firstname required!
+          </p>
+          <p class="caption status-danger" *ngIf="f.firstName.errors.pattern">
+            Bad firstname pattern!
+          </p>
+        </ng-container>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="lastname-input">Lastname:</label>
+        <input type="text" nbInput fullWidth placeholder="Last name" name="lastname" id="lastname-input"
+          formControlName="name">
+        <ng-container *ngIf="f.name.touched && f.name.errors">
+          <p class="caption status-danger" *ngIf="f.name.errors.required">
+            Last name required!
+          </p>
+          <p class="caption status-danger" *ngIf="f.name.errors.pattern">
+            Bad last name pattern!
+          </p>
+        </ng-container>
+      </div>
+      <!-- phones -->
+      <div class="form-group">
+        <label class="label" for="phone1-input">Phone 1:</label>
+        <input type="text" nbInput fullWidth placeholder="Phone 1" name="phone1" id="phone1-input"
+          formControlName="phone1">
+        <ng-container *ngIf="f.phone1.touched && f.phone1.errors">
+          <p class="caption status-danger" *ngIf="f.phone1.errors.required">
+            Phone 1 required!
+          </p>
+          <p class="caption status-danger" *ngIf="f.phone1.errors.pattern">
+            Bad Phone 1 pattern!
+          </p>
+        </ng-container>
+      </div>
+      <div class="form-group">
+        <label class="label" for="phone2-input">Phone 2:</label>
+        <input type="text" nbInput fullWidth placeholder="Phone 2" name="phone2" id="phone2-input"
+          formControlName="phone2">
+        <ng-container *ngIf="f.phone2.touched && f.phone2.errors">
+          <p class="caption status-danger" *ngIf="f.phone2.errors.pattern">
+            Bad Phone 2 pattern!
+          </p>
+        </ng-container>
+      </div>
+      <!-- Email -->
+      <div class="form-group">
+        <label class="label" for="email-input">Email:</label>
+        <input type="email" nbInput fullWidth placeholder="Email" name="email" id="email-input" formControlName="email">
+        <ng-container *ngIf="f.email.touched && f.email.errors">
+          <p class="caption status-danger" *ngIf="f.email.errors.required">
+            Email required!
+          </p>
+          <p class="caption status-danger" *ngIf="f.email.errors.email">
+            Bad email pattern!
+          </p>
+        </ng-container>
+      </div>
+      <div class="form-group">
+        <label class="label" for="confirmed-email-input">Confirmed Email:</label>
+        <input type="email" nbInput fullWidth placeholder="Confirmed email" name="confirmed-email"
+          id="confirmed-email-input" formControlName="confirmedEmail">
+        <ng-container *ngIf="f.confirmedEmail.touched && f.confirmedEmail.errors">
+          <p class="caption status-danger" *ngIf="f.confirmedEmail.errors.required">
+            Confirmed email required!
+          </p>
+          <p class="caption status-danger" *ngIf="f.confirmedEmail.errors.mustMatch">
+            Confirmed email and email are different!
+          </p>
+        </ng-container>
+      </div>
+
+
+      <!-- Password -->
+      <div class="form-group">
+        <label class="label" for="email-input">Password:</label>
+        <input type="password" nbInput fullWidth placeholder="Password" name="password" id="email-input"
+          formControlName="password">
+        <ng-container *ngIf="f.password.touched && f.password.errors">
+          <p class="caption status-danger" *ngIf="f.password.errors.required">
+            Password required!
+          </p>
+          <p class="caption status-danger" *ngIf="f.password.errors.pattern || f.password.errors.minLength">
+            Bad password pattern!
+          </p>
+        </ng-container>
+      </div>
+      <div class="form-group">
+        <label class="label" for="confirmed-password-input">Confirmed Email:</label>
+        <input type="password" nbInput fullWidth placeholder="Confirmed password" name="confirmed-password"
+          id="confirmed-password-input" formControlName="confirmedPassword">
+        <ng-container *ngIf="f.confirmedPassword.touched && f.confirmedPassword.errors">
+          <p class="caption status-danger" *ngIf="f.confirmedPassword.errors.required">
+            Confirmed password required!
+          </p>
+          <p class="caption status-danger" *ngIf="f.confirmedPassword.errors.mustMatch">
+            Confirmed password and email different!
+          </p>
+        </ng-container>
+      </div>
+
+
+      <button nbButton fullWidth status="primary" size="large" [disabled]="adminForm.invalid"
+        [class.btn-pulse]="submitted" click>
+        save
+      </button>
+    </nb-card-body>
+  </nb-card>
+</form>
+<!-- </div> -->

@@ -23,9 +23,11 @@ import {
   NbDatepickerModule,
   NbRadioModule,
   NbInputModule
+
 } from '@nebular/theme';
 import { FormsRoutingModule } from '../../../../../../src/app/pages/forms/forms-routing.module';
 import { ThemeModule } from '../../@theme/theme.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,9 @@ import { ThemeModule } from '../../@theme/theme.module';
     NbDatepickerModule,
     NbSelectModule,
     NbIconModule,
+
+    FormsModule,
+    ReactiveFormsModule,
   ],
 })
 export class UsersModule { }

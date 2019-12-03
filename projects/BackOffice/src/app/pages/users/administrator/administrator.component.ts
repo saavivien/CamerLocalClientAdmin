@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NbDialogService } from '@nebular/theme';
-import { UserModel, Result } from '../user.model';
 import { BaseService } from '../../../services/base.service';
 import { AdminAddUpdateComponent } from '../admin-add-update/admin-add-update.component';
+import { UserResult, UserModel } from '../../../models/user.model';
 
 @Component({
   selector: 'ngx-administrator',
@@ -13,7 +13,7 @@ export class AdministratorComponent implements OnInit {
 
   displayedColumns: string[] = ['title', 'name', 'firstName', 'phone1', 'phone2', 'email', 'creationDate', 'actions'];
   // public dataSource = new MatTableDataSource<UserModel>();
-  private dataSource: UserModel[];
+  private users: UserModel[];
   constructor(
     private repoService: BaseService,
     private dialogService: NbDialogService) { }
@@ -24,8 +24,8 @@ export class AdministratorComponent implements OnInit {
 
   public getAllUsers = () => {
     this.repoService.getData('api/user')
-      .subscribe((res: Result) => {
-        this.dataSource = res._embedded.userResourceList.map(u => u.user);
+      .subscribe((res: UserResult) => {
+        this.users = res._embedded.userResourceList.map(u => u.user);
       })
   }
   redirectToUpdate(id: number, hasBackdrop: boolean) {

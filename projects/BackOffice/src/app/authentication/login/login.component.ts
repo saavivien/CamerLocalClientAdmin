@@ -48,13 +48,12 @@ export class LoginComponent {
 
     this.authService.authenticate(this.strategy, this.user).subscribe((result: NbAuthResult) => {
       this.submitted = false;
-      this.token = <NbAuthOAuth2JWTToken> result.getToken();
       if (result.isSuccess()) {
+        this.token = <NbAuthOAuth2JWTToken>result.getToken();
         this.messages = result.getMessages();
       } else {
         this.errors = result.getErrors();
       }
-
       const redirect = result.getRedirect();
       if (redirect) {
         setTimeout(() => {
