@@ -7,14 +7,14 @@ import { UsersComponent } from './users.component';
 import {
   MatTableModule,
   MatButtonModule,
-  MatIconModule
+  MatIconModule,
+  MatFormFieldModule,
+  MatSelectModule
 }
   from '@angular/material';
 import { AdminAddUpdateComponent } from './admin-add-update/admin-add-update.component';
 import {
   NbCardModule,
-  NbDialogModule,
-  NbWindowModule,
   NbButtonModule,
   NbActionsModule,
   NbCheckboxModule,
@@ -25,7 +25,6 @@ import {
   NbInputModule
 
 } from '@nebular/theme';
-import { FormsRoutingModule } from '../../../../../../src/app/pages/forms/forms-routing.module';
 import { ThemeModule } from '../../@theme/theme.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -44,6 +43,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatButtonModule,
     MatTableModule,
     MatIconModule,
+    MatSelectModule,
+    MatFormFieldModule,
     NbCardModule,
 
     ThemeModule,

@@ -8,6 +8,7 @@ export class UserModel {
   phone1: string;
   phone2: string;
   email: string;
+  password: string;
   creationDate: Date;
   userCreator: UserModel;
   roles: RoleModel[];

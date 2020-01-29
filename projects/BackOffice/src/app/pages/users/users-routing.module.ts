@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { UsersComponent } from './users.component';
 import { AdministratorComponent } from './administrator/administrator.component';
+import { AdminAddUpdateComponent } from './admin-add-update/admin-add-update.component';
 
 const routes: Routes = [{
   path: '',
@@ -11,10 +12,14 @@ const routes: Routes = [{
       path: 'admin',
       component: AdministratorComponent,
     },
-    // {
-    //   path: 'Client',
-    //   component: ListComponent,
-    // },
+    {
+      path: 'admin_edition',
+      component: AdminAddUpdateComponent,
+    },
+    {
+      path: 'admin_edition/:id',
+      component: AdminAddUpdateComponent,
+    },
   ],
 }];
 

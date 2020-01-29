@@ -1,24 +1,31 @@
 <!-- <div class="col-lg-6 text-center"> -->
 <form (ngSubmit)="submitAdminData()" [formGroup]="adminForm" size="large">
   <nb-card>
-    <nb-card-header>Default Inputs</nb-card-header>
+    <nb-card-header>
+      <div *ngIf="id==null">New User</div>
+      <div *ngIf="id!=null">Edit User</div>
+    </nb-card-header>
     <nb-card-body class="overflow-auto">
       <!-- Title -->
       <div class="full-name-inputs">
-        <label class="label" for="title-input">Title : </label>
-        <nb-select id="title-input" placeholder="select a title" class="example-items-col" formControlName="title">
-          <nb-option *ngFor="let title of titles" [value]="title">{{title}}</nb-option>
-        </nb-select>
-        <label class="label" for="title-input">Role : </label>
-        <nb-select multiple id="title-input" placeholder="select a role" class="example-items-col"
-          formControlName="roles">
-          <nb-option *ngFor="let role of roles" [value]="role">{{role.displayedName}}</nb-option>
-        </nb-select>
+        <mat-label class="label" for="title-input">Title </mat-label>
+        <mat-select id="title-input" placeholder="select a title" class="example-items-col" formControlName="title">
+          <mat-option *ngFor="let title of titles" [value]="title">
+            {{title}}
+          </mat-option>
+        </mat-select>
+        <mat-label class="label" for="title-input">Role </mat-label>
+        <mat-select multiple id="title-input" placeholder="select a role" class="example-items-col"
+          formControlName="roles" [compareWith]="compare">
+          <mat-option *ngFor="let role of rolesList" [value]="role">
+            {{role.displayedName}}
+          </mat-option>
+        </mat-select>
       </div>
 
       <!-- names -->
       <div class="form-group">
-        <label class="label" for="firstname-input">Firstname:</label>
+        <mat-label class="label" for="firstname-input">Firstname</mat-label>
         <input type="text" nbInput fullWidth placeholder="Firstname" name="firstname" id="firstname-input"
           formControlName="firstName" [ngClass]="{'is-invalid': f.firstName.touched && f.firstName.errors}">
         <ng-container *ngIf="f.firstName.touched && f.firstName.errors">
@@ -32,7 +39,7 @@
       </div>
 
       <div class="form-group">
-        <label class="label" for="lastname-input">Lastname:</label>
+        <label class="label" for="lastname-input">Lastname </label>
         <input type="text" nbInput fullWidth placeholder="Last name" name="lastname" id="lastname-input"
           formControlName="name">
         <ng-container *ngIf="f.name.touched && f.name.errors">
@@ -46,7 +53,7 @@
       </div>
       <!-- phones -->
       <div class="form-group">
-        <label class="label" for="phone1-input">Phone 1:</label>
+        <label class="label" for="phone1-input">Phone 1</label>
         <input type="text" nbInput fullWidth placeholder="Phone 1" name="phone1" id="phone1-input"
           formControlName="phone1">
         <ng-container *ngIf="f.phone1.touched && f.phone1.errors">
@@ -59,7 +66,7 @@
         </ng-container>
       </div>
       <div class="form-group">
-        <label class="label" for="phone2-input">Phone 2:</label>
+        <label class="label" for="phone2-input">Phone 2</label>
         <input type="text" nbInput fullWidth placeholder="Phone 2" name="phone2" id="phone2-input"
           formControlName="phone2">
         <ng-container *ngIf="f.phone2.touched && f.phone2.errors">
@@ -70,7 +77,7 @@
       </div>
       <!-- Email -->
       <div class="form-group">
-        <label class="label" for="email-input">Email:</label>
+        <label class="label" for="email-input">Email</label>
         <input type="email" nbInput fullWidth placeholder="Email" name="email" id="email-input" formControlName="email">
         <ng-container *ngIf="f.email.touched && f.email.errors">
           <p class="caption status-danger" *ngIf="f.email.errors.required">
@@ -82,7 +89,7 @@
         </ng-container>
       </div>
       <div class="form-group">
-        <label class="label" for="confirmed-email-input">Confirmed Email:</label>
+        <label class="label" for="confirmed-email-input">Confirmed Email</label>
         <input type="email" nbInput fullWidth placeholder="Confirmed email" name="confirmed-email"
           id="confirmed-email-input" formControlName="confirmedEmail">
         <ng-container *ngIf="f.confirmedEmail.touched && f.confirmedEmail.errors">
@@ -97,9 +104,9 @@
 
 
       <!-- Password -->
-      <div class="form-group">
-        <label class="label" for="email-input">Password:</label>
-        <input type="password" nbInput fullWidth placeholder="Password" name="password" id="email-input"
+      <div class="form-group" *ngIf="id==null">
+        <label class="label" for="password-input">Password</label>
+        <input type="password" nbInput fullWidth placeholder="Password" name="password" id="password-input"
           formControlName="password">
         <ng-container *ngIf="f.password.touched && f.password.errors">
           <p class="caption status-danger" *ngIf="f.password.errors.required">
@@ -110,8 +117,8 @@
           </p>
         </ng-container>
       </div>
-      <div class="form-group">
-        <label class="label" for="confirmed-password-input">Confirmed Email:</label>
+      <div class="form-group" *ngIf="id==null">
+        <label class="label" for="confirmed-password-input">Confirmed Password</label>
         <input type="password" nbInput fullWidth placeholder="Confirmed password" name="confirmed-password"
           id="confirmed-password-input" formControlName="confirmedPassword">
         <ng-container *ngIf="f.confirmedPassword.touched && f.confirmedPassword.errors">
