@@ -20,6 +20,10 @@ const routes: Routes = [{
       path: 'admin_edition/:id',
       component: AdminAddUpdateComponent,
     },
+    {
+      path: 'admin_edition/:user_email',
+      component: AdminAddUpdateComponent,
+    },
   ],
 }];
 

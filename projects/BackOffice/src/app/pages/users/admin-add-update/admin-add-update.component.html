@@ -1,141 +1,184 @@
 <!-- <div class="col-lg-6 text-center"> -->
-<form (ngSubmit)="submitAdminData()" [formGroup]="adminForm" size="large">
+<form [formGroup]="adminForm" size="large">
   <nb-card>
     <nb-card-header>
-      <div *ngIf="id==null">New User</div>
-      <div *ngIf="id!=null">Edit User</div>
+      <div>{{pageTitle}}</div>
     </nb-card-header>
-    <nb-card-body class="overflow-auto">
+    <nb-card-body>
       <!-- Title -->
-      <div class="full-name-inputs">
-        <mat-label class="label" for="title-input">Title </mat-label>
-        <mat-select id="title-input" placeholder="select a title" class="example-items-col" formControlName="title">
-          <mat-option *ngFor="let title of titles" [value]="title">
-            {{title}}
-          </mat-option>
-        </mat-select>
-        <mat-label class="label" for="title-input">Role </mat-label>
-        <mat-select multiple id="title-input" placeholder="select a role" class="example-items-col"
-          formControlName="roles" [compareWith]="compare">
-          <mat-option *ngFor="let role of rolesList" [value]="role">
-            {{role.displayedName}}
-          </mat-option>
-        </mat-select>
-      </div>
+      <div class="row">
 
-      <!-- names -->
-      <div class="form-group">
-        <mat-label class="label" for="firstname-input">Firstname</mat-label>
-        <input type="text" nbInput fullWidth placeholder="Firstname" name="firstname" id="firstname-input"
-          formControlName="firstName" [ngClass]="{'is-invalid': f.firstName.touched && f.firstName.errors}">
-        <ng-container *ngIf="f.firstName.touched && f.firstName.errors">
-          <p class="caption status-danger" *ngIf="f.firstName.errors.required">
-            Firstname required!
-          </p>
-          <p class="caption status-danger" *ngIf="f.firstName.errors.pattern">
-            Bad firstname pattern!
-          </p>
-        </ng-container>
-      </div>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-label class="label" for="title-input">Title </mat-label>
+              <mat-select id="title-input" placeholder="select a title" class="example-items-col"
+                formControlName="title" [disabled]="!editable">
+                <mat-option *ngFor="let title of titles" [value]="title">
+                  {{title}}
+                </mat-option>
+              </mat-select>
+            </div>
+            <div class="col-md-6">
+              <mat-label class="label" for="title-input">Role </mat-label>
+              <mat-select multiple id="title-input" placeholder="select a role" class="example-items-col"
+                formControlName="roles" [compareWith]="compare" [disabled]="!editable">
+                <mat-option *ngFor="let role of rolesList" [value]="role">
+                  {{role.displayedName}}
+                </mat-option>
+              </mat-select>
+            </div>
+          </div>
 
-      <div class="form-group">
-        <label class="label" for="lastname-input">Lastname </label>
-        <input type="text" nbInput fullWidth placeholder="Last name" name="lastname" id="lastname-input"
-          formControlName="name">
-        <ng-container *ngIf="f.name.touched && f.name.errors">
-          <p class="caption status-danger" *ngIf="f.name.errors.required">
-            Last name required!
-          </p>
-          <p class="caption status-danger" *ngIf="f.name.errors.pattern">
-            Bad last name pattern!
-          </p>
-        </ng-container>
-      </div>
-      <!-- phones -->
-      <div class="form-group">
-        <label class="label" for="phone1-input">Phone 1</label>
-        <input type="text" nbInput fullWidth placeholder="Phone 1" name="phone1" id="phone1-input"
-          formControlName="phone1">
-        <ng-container *ngIf="f.phone1.touched && f.phone1.errors">
-          <p class="caption status-danger" *ngIf="f.phone1.errors.required">
-            Phone 1 required!
-          </p>
-          <p class="caption status-danger" *ngIf="f.phone1.errors.pattern">
-            Bad Phone 1 pattern!
-          </p>
-        </ng-container>
-      </div>
-      <div class="form-group">
-        <label class="label" for="phone2-input">Phone 2</label>
-        <input type="text" nbInput fullWidth placeholder="Phone 2" name="phone2" id="phone2-input"
-          formControlName="phone2">
-        <ng-container *ngIf="f.phone2.touched && f.phone2.errors">
-          <p class="caption status-danger" *ngIf="f.phone2.errors.pattern">
-            Bad Phone 2 pattern!
-          </p>
-        </ng-container>
-      </div>
-      <!-- Email -->
-      <div class="form-group">
-        <label class="label" for="email-input">Email</label>
-        <input type="email" nbInput fullWidth placeholder="Email" name="email" id="email-input" formControlName="email">
-        <ng-container *ngIf="f.email.touched && f.email.errors">
-          <p class="caption status-danger" *ngIf="f.email.errors.required">
-            Email required!
-          </p>
-          <p class="caption status-danger" *ngIf="f.email.errors.email">
-            Bad email pattern!
-          </p>
-        </ng-container>
-      </div>
-      <div class="form-group">
-        <label class="label" for="confirmed-email-input">Confirmed Email</label>
-        <input type="email" nbInput fullWidth placeholder="Confirmed email" name="confirmed-email"
-          id="confirmed-email-input" formControlName="confirmedEmail">
-        <ng-container *ngIf="f.confirmedEmail.touched && f.confirmedEmail.errors">
-          <p class="caption status-danger" *ngIf="f.confirmedEmail.errors.required">
-            Confirmed email required!
-          </p>
-          <p class="caption status-danger" *ngIf="f.confirmedEmail.errors.mustMatch">
-            Confirmed email and email are different!
-          </p>
-        </ng-container>
-      </div>
+          <!-- names -->
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="label" for="firstname-input">Firstname</label>
+              <input type="text" nbInput fullWidth placeholder="Firstname" name="firstname" id="firstname-input"
+                formControlName="firstName" [ngClass]="{'is-invalid': f.firstName.touched && f.firstName.errors}"
+                [readonly]="!editable">
+              <ng-container *ngIf="f.firstName.touched && f.firstName.errors">
+                <p class="caption status-danger" *ngIf="f.firstName.errors.required">
+                  Firstname required!
+                </p>
+                <p class="caption status-danger" *ngIf="f.firstName.errors.pattern">
+                  Bad firstname pattern!
+                </p>
+              </ng-container>
+            </div>
 
-
-      <!-- Password -->
-      <div class="form-group" *ngIf="id==null">
-        <label class="label" for="password-input">Password</label>
-        <input type="password" nbInput fullWidth placeholder="Password" name="password" id="password-input"
-          formControlName="password">
-        <ng-container *ngIf="f.password.touched && f.password.errors">
-          <p class="caption status-danger" *ngIf="f.password.errors.required">
-            Password required!
-          </p>
-          <p class="caption status-danger" *ngIf="f.password.errors.pattern || f.password.errors.minLength">
-            Bad password pattern!
-          </p>
-        </ng-container>
-      </div>
-      <div class="form-group" *ngIf="id==null">
-        <label class="label" for="confirmed-password-input">Confirmed Password</label>
-        <input type="password" nbInput fullWidth placeholder="Confirmed password" name="confirmed-password"
-          id="confirmed-password-input" formControlName="confirmedPassword">
-        <ng-container *ngIf="f.confirmedPassword.touched && f.confirmedPassword.errors">
-          <p class="caption status-danger" *ngIf="f.confirmedPassword.errors.required">
-            Confirmed password required!
-          </p>
-          <p class="caption status-danger" *ngIf="f.confirmedPassword.errors.mustMatch">
-            Confirmed password and email different!
-          </p>
-        </ng-container>
-      </div>
+            <div class="form-group col-md-6">
+              <label class="label" for="lastname-input">Lastname </label>
+              <input type="text" nbInput fullWidth placeholder="Last name" name="lastname" id="lastname-input"
+                formControlName="name" [readonly]="!editable">
+              <ng-container *ngIf="f.name.touched && f.name.errors">
+                <p class="caption status-danger" *ngIf="f.name.errors.required">
+                  Last name required!
+                </p>
+                <p class="caption status-danger" *ngIf="f.name.errors.pattern">
+                  Bad last name pattern!
+                </p>
+              </ng-container>
+            </div>
+          </div>
+          <!-- phones -->
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="label" for="phone1-input">Phone 1</label>
+              <input type="text" nbInput fullWidth placeholder="Phone 1" name="phone1" id="phone1-input"
+                formControlName="phone1" [readonly]="!editable">
+              <ng-container *ngIf="f.phone1.touched && f.phone1.errors">
+                <p class="caption status-danger" *ngIf="f.phone1.errors.required">
+                  Phone 1 required!
+                </p>
+                <p class="caption status-danger" *ngIf="f.phone1.errors.pattern">
+                  Bad Phone 1 pattern!
+                </p>
+              </ng-container>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="label" for="phone2-input">Phone 2</label>
+              <input type="text" nbInput fullWidth placeholder="Phone 2" name="phone2" id="phone2-input"
+                formControlName="phone2" [readonly]="!editable">
+              <ng-container *ngIf="f.phone2.touched && f.phone2.errors">
+                <p class="caption status-danger" *ngIf="f.phone2.errors.pattern">
+                  Bad Phone 2 pattern!
+                </p>
+              </ng-container>
+            </div>
+          </div>
+          <!-- Email -->
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="label" for="email-input">Email</label>
+              <input type="email" nbInput fullWidth placeholder="Email" name="email" id="email-input"
+                formControlName="email" [readonly]="!editable">
+              <ng-container *ngIf="f.email.touched && f.email.errors">
+                <p class="caption status-danger" *ngIf="f.email.errors.required">
+                  Email required!
+                </p>
+                <p class="caption status-danger" *ngIf="f.email.errors.email">
+                  Bad email pattern!
+                </p>
+              </ng-container>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="label" for="confirmed-email-input">Confirmed Email</label>
+              <input type="email" nbInput fullWidth placeholder="Confirmed email" name="confirmed-email"
+                id="confirmed-email-input" formControlName="confirmedEmail" [readonly]="!editable">
+              <ng-container *ngIf="f.confirmedEmail.touched && f.confirmedEmail.errors">
+                <p class="caption status-danger" *ngIf="f.confirmedEmail.errors.required">
+                  Confirmed email required!
+                </p>
+                <p class="caption status-danger" *ngIf="f.confirmedEmail.errors.mustMatch">
+                  Confirmed email and email are different!
+                </p>
+              </ng-container>
+            </div>
+          </div>
 
 
-      <button nbButton fullWidth status="primary" size="large" [disabled]="adminForm.invalid"
-        [class.btn-pulse]="submitted" click>
-        save
-      </button>
+          <!-- Password -->
+          <div class="row" *ngIf="id==null">
+            <div class="form-group col-md-6">
+              <label class="label" for="password-input">Password</label>
+              <input type="password" nbInput fullWidth placeholder="Password" name="password" id="password-input"
+                formControlName="password">
+              <ng-container *ngIf="f.password.touched && f.password.errors">
+                <p class="caption status-danger" *ngIf="f.password.errors.required">
+                  Password required!
+                </p>
+                <p class="caption status-danger" *ngIf="f.password.errors.pattern || f.password.errors.minLength">
+                  Bad password pattern!
+                </p>
+              </ng-container>
+            </div>
+            <div class="form-group col-md-6" *ngIf="id==null">
+              <label class="label" for="confirmed-password-input">Confirmed Password</label>
+              <input type="password" nbInput fullWidth placeholder="Confirmed password" name="confirmed-password"
+                id="confirmed-password-input" formControlName="confirmedPassword">
+              <ng-container *ngIf="f.confirmedPassword.touched && f.confirmedPassword.errors">
+                <p class="caption status-danger" *ngIf="f.confirmedPassword.errors.required">
+                  Confirmed password required!
+                </p>
+                <p class="caption status-danger" *ngIf="f.confirmedPassword.errors.mustMatch">
+                  Confirmed password and email different!
+                </p>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <label class="label" for="image-input">profile image</label>
+          <input type="file" class="form-control" accept="image/*" (change)="onSelectFile($event)"
+            style="height: 100%;" />
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-6" *ngIf="!editable">
+          <button nbButton fullWidth status="primary" size="medium" (click)="edit()">
+            Edit
+          </button>
+        </div>
+        <div class="col-md-6" *ngIf="editable">
+          <button nbButton fullWidth status="primary" size="medium" [disabled]="adminForm.invalid"
+            (click)="submitAdminData()">
+            save
+          </button>
+        </div>
+        <div class="col-md-6">
+          <button nbButton fullWidth size="medium" status="basic" (click)="cancle()" class="hspace">
+            <div *ngIf="!editable">
+              go back
+            </div>
+            <div *ngIf="editable">
+              cancle
+            </div>
+          </button>
+        </div>
+      </div>
     </nb-card-body>
   </nb-card>
 </form>

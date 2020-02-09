@@ -1,8 +1,6 @@
 @import '../../../@theme/styles/themes';
 nb-card-body {
-    overflow: visible;
-    padding-top: 0;
-  
+    overflow: visible;  
     > * {
       margin-top: 1rem;
     }
@@ -39,7 +37,7 @@ nb-card-body {
      * This is the max-width value of the Bootstrap giant modal
      * Using it here ensures the modal will properly adjust it's width to the content
      */
-    max-width: 50%;
+  
     /**
      * This is the height value of NbComponentSize 'giant'
      * By setting max-height of the modal card to this value, we ensure the modal will properly adjust it's height
@@ -50,4 +48,7 @@ nb-card-body {
   }
   nb-card-header {
     text-align: center;
+  }
+  button.hspace{
+    padding-top: 1000px;
   }

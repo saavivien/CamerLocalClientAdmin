@@ -7,6 +7,7 @@ import { RoleResult, RoleModel } from '../../../models/role.model';
 import { UserResource, UserModel } from '../../../models/user.model';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router'
+import { NbAuthService, NbAuthResult, NbAuthOAuth2JWTToken } from '@nebular/auth';
 
 @Component({
   selector: 'ngx-admin-add-update',
@@ -17,7 +18,11 @@ export class AdminAddUpdateComponent implements OnInit {
   private adminForm: FormGroup;
   private titles: any = ['Mr', 'Ms', 'Mrs'];
   private rolesList: RoleModel[];
-  private id: number;
+  private id: Number;
+  private editable: boolean;
+  private connectedUser: any;
+  private pageTitle: String;
+  private imageFile: File;
 
   namePattern = /^([a-zA-Z]+)(?=\D*\d*)[A-Za-z\d\s!$%@#£€*?&-éçèùê]{1,}$/
   passwordPattern = /^([a-zA-Z]+)(?=\D*\d*)[A-Za-z\d\s!$%@#£€*?&-éçèùê]{2,}$/
@@ -29,15 +34,25 @@ export class AdminAddUpdateComponent implements OnInit {
     private repoService: BaseService,
     private location: Location,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private authService: NbAuthService) {
     this.getAllRoles();
   }
 
   ngOnInit() {
+    this.authService.getToken()
+      .subscribe((token: NbAuthOAuth2JWTToken) => {
+        if (token.isValid()) {
+          this.connectedUser = token.getAccessTokenPayload(); // here we receive a payload from the token and assigns it to our `user` variable 
+        }
+      });
+
     this.route.params.subscribe(params => {
       if (params.id) {
         this.id = params.id;
+        this.pageTitle = "User Information";
         this.createForm();
+        this.editable = false;
         this.repoService.getData('api/user', params.id).subscribe((res: UserResource) => {
           this.setFormValue(res.user);
           console.log('================ test: ' + this.id + '===================')
@@ -45,11 +60,12 @@ export class AdminAddUpdateComponent implements OnInit {
       }
       else {
         this.id = null;
+        this.pageTitle = "New User";
+        this.editable = true;
         this.createForm();
       }
     })
   }
-
 
   public getAllRoles = () => {
     this.repoService.getData('api/role')
@@ -60,15 +76,28 @@ export class AdminAddUpdateComponent implements OnInit {
   public submitAdminData() {
     let user: UserModel;
     user = <UserModel>this.adminForm.value;
+    const formData = new FormData();
+    formData.append("user", JSON.stringify(user));
+    formData.append("image", this.imageFile);
+
     if (this.id) {
       user.id = this.id;
-      this.repoService.update('api/user', user, this.id).subscribe((ur: UserResource) => {
+      this.repoService.update('api/user/userprofile', formData, this.id).subscribe((ur: UserResource) => {
         console.log('user' + ur.user.firstName + 'succesfully updated');
-        this.router.navigate(['pages/users/admin'])
+        //if the user edited is the connected user, he will have to login again since he can edit his email
+        if (user.email == this.connectedUser.user_name) {
+          this.authService.logout('myAuthStrategy')
+            .subscribe((authResult: NbAuthResult) => {
+              return this.router.navigate(['/auth/login']);
+            });
+        }
+        else {
+          this.router.navigate(['pages/users/admin'])
+        }
       });
     }
     else {
-      this.repoService.create('api/user', user).subscribe((ur: UserResource) => {
+      this.repoService.createUserWithProfile('api/user/userprofile', formData).subscribe((ur: UserResource) => {
         console.log('user' + ur.user.firstName + 'succesfully created');
         this.router.navigate(['pages/users/admin'])
       });
@@ -76,6 +105,7 @@ export class AdminAddUpdateComponent implements OnInit {
   }
   // reactive form building
   createForm() {
+    console.log("helllllllllllllloooooooooooooooooooooooooooooooooooooooooooooooooooo");
     if (this.id) {
       this.adminForm = this.formBuilder.group({
         title: ['', Validators.required],
@@ -114,6 +144,12 @@ export class AdminAddUpdateComponent implements OnInit {
         validator: [MustMatch('password', 'confirmedPassword'), MustMatch('email', 'confirmedEmail')]
       });
     }
+  }
+
+  //Make the form editable
+  edit() {
+    this.editable = true;
+    this.pageTitle = "User Edition";
   }
 
   setFormValue(u: UserModel) {
@@ -159,12 +195,18 @@ export class AdminAddUpdateComponent implements OnInit {
   //   return this.adminForm.get('password');
   // }
   // convenience getter for easy access to form fields
-  get f() { return this.adminForm.controls; }
+  public get f() { return this.adminForm.controls; }
 
-  cancel() {
+  cancle() {
     this.goBack();
   }
   goBack() {
     this.location.back();
+  }
+
+
+  //file handling
+  onSelectFile(event) {
+    this.imageFile = event.target.files[0];
   }
 }

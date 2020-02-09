@@ -18,7 +18,7 @@ export class BaseService {
     return this.http.post(this.createCompleteRoute(environment.urlAddress, route), body, this.generateHeaders());
   }
 
-  public update = (route: string, body, id?: number) => {
+  public update = (route: string, body, id?: Number) => {
     return this.http.put(this.createCompleteRoute(environment.urlAddress, route, id), body, this.generateHeaders());
   }
 
@@ -26,7 +26,17 @@ export class BaseService {
     return this.http.delete(this.createCompleteRoute(environment.urlAddress, route));
   }
 
-  private createCompleteRoute = (envAddress: string, route: string, id?: number) => {
+  //specific method
+  public getUserByEmail = (route: string, email: string) => {
+    return this.http.get(this.createCompleteRoute(environment.urlAddress, route, email));
+  }
+
+  public createUserWithProfile = (route: string, body) => {
+    return this.http.post(this.createCompleteRoute(environment.urlAddress, route), body);
+  }
+
+  //utils
+  private createCompleteRoute = (envAddress: string, route: string, id?) => {
     if (id) {
       return `${envAddress}/${route}/${id}`;
     }

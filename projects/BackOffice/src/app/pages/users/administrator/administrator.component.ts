@@ -31,8 +31,8 @@ export class AdministratorComponent implements OnInit {
         this.users = res._embedded.userResourceList.map(u => u.user);
       })
   }
-  redirectToUpdate(id: number) {
-    this.router.navigate(['pages/users/admin_edition', id])
+  redirectToView(id: number) {
+    this.router.navigate(['pages/users/admin_edition', { id: id }])
     // this.dialogService.open(AdminAddUpdateComponent, { hasBackdrop })
     // .onClose.subscribe(name => name && this.names.push(name));
   }

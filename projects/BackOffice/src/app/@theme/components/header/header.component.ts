@@ -58,6 +58,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
         if (token.isValid()) {
           this.user = token.getAccessTokenPayload(); // here we receive a payload from the token and assigns it to our `user` variable 
+          console.log("=============" + JSON.stringify(this.user) + "======================");
         }
 
       });
@@ -96,12 +97,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
             this.authService.logout('myAuthStrategy')
               .subscribe((authResult: NbAuthResult) => {
                 return this.router.navigate(['/auth/login']);
-                this.user = null;
               });
             break;
           }
           case 'Profile': {
-
+            this.router.navigate(['pages/users/admin_edition', { id: this.user.userId }]);
             break;
           }
           default: {
