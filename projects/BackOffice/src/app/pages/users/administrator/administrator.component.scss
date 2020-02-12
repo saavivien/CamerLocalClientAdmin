@@ -7,9 +7,9 @@
   
   .mat-table {
     overflow: auto;
-    max-height: 500px;
+    max-height: 700px;
   }
-  
+
   .mobile-label {
     display: none;
   }
@@ -31,3 +31,50 @@
       padding: 8px 24px;
     }
   }
+
+  .mat-column-title,.mat-column-actions{
+    flex: 0 0 5% !important;
+    width: 5% !important;
+  }
+
+  .mat-column-firstName,.mat-column-name{
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex:0 0 15% !important;
+    width: 15% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+  .mat-column-email{
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex:0 0 20% !important;
+    width: 20% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+  .mat-column-creationDate{
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex:0 0 10% !important;
+    width: 10% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+
+ 

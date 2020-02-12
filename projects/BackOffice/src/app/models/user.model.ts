@@ -20,6 +20,7 @@ export class UserModel {
 };
 export interface UserResource {
   user: UserModel,
+  image: string
   // link: string,
 }
 export interface UserResources {

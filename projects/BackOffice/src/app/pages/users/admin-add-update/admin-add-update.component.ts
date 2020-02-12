@@ -22,7 +22,9 @@ export class AdminAddUpdateComponent implements OnInit {
   private editable: boolean;
   private connectedUser: any;
   private pageTitle: String;
-  private imageFile: File;
+  //image
+  private selectedImageFile: File;
+  private imageUrl: any;
 
   namePattern = /^([a-zA-Z]+)(?=\D*\d*)[A-Za-z\d\s!$%@#£€*?&-éçèùê]{1,}$/
   passwordPattern = /^([a-zA-Z]+)(?=\D*\d*)[A-Za-z\d\s!$%@#£€*?&-éçèùê]{2,}$/
@@ -55,6 +57,7 @@ export class AdminAddUpdateComponent implements OnInit {
         this.editable = false;
         this.repoService.getData('api/user', params.id).subscribe((res: UserResource) => {
           this.setFormValue(res.user);
+          this.imageUrl = res.image;
           console.log('================ test: ' + this.id + '===================')
         })
       }
@@ -77,12 +80,12 @@ export class AdminAddUpdateComponent implements OnInit {
     let user: UserModel;
     user = <UserModel>this.adminForm.value;
     const formData = new FormData();
-    formData.append("user", JSON.stringify(user));
-    formData.append("image", this.imageFile);
-
     if (this.id) {
       user.id = this.id;
-      this.repoService.update('api/user/userprofile', formData, this.id).subscribe((ur: UserResource) => {
+      formData.append("user", JSON.stringify(user));
+      formData.append("image", this.selectedImageFile);
+
+      this.repoService.updateUserWithProfile('api/user/userprofile', formData, this.id).subscribe((ur: UserResource) => {
         console.log('user' + ur.user.firstName + 'succesfully updated');
         //if the user edited is the connected user, he will have to login again since he can edit his email
         if (user.email == this.connectedUser.user_name) {
@@ -97,6 +100,8 @@ export class AdminAddUpdateComponent implements OnInit {
       });
     }
     else {
+      formData.append("user", JSON.stringify(user));
+      formData.append("image", this.selectedImageFile);
       this.repoService.createUserWithProfile('api/user/userprofile', formData).subscribe((ur: UserResource) => {
         console.log('user' + ur.user.firstName + 'succesfully created');
         this.router.navigate(['pages/users/admin'])
@@ -105,7 +110,6 @@ export class AdminAddUpdateComponent implements OnInit {
   }
   // reactive form building
   createForm() {
-    console.log("helllllllllllllloooooooooooooooooooooooooooooooooooooooooooooooooooo");
     if (this.id) {
       this.adminForm = this.formBuilder.group({
         title: ['', Validators.required],
@@ -207,6 +211,11 @@ export class AdminAddUpdateComponent implements OnInit {
 
   //file handling
   onSelectFile(event) {
-    this.imageFile = event.target.files[0];
+    this.selectedImageFile = event.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(this.selectedImageFile);
+    reader.onload = () => {
+      this.imageUrl = reader.result;
+    }
   }
 }

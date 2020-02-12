@@ -150,8 +150,8 @@
         </div>
         <div class="col-md-3 form-group">
           <label class="label" for="image-input">profile image</label>
-          <input type="file" class="form-control" accept="image/*" (change)="onSelectFile($event)"
-            style="height: 100%;" />
+          <input type="file" class="form-control" accept="image/*" (change)="onSelectFile($event)" *ngIf=editable />
+          <img [src]="imageUrl" class="rounded mx-auto d-block" height="200" *ngIf="imageUrl">
         </div>
 
       </div>

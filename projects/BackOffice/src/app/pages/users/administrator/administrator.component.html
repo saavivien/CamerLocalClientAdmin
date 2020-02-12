@@ -1,7 +1,7 @@
 <button mat-raised-button (click)="redirectToCreate()"> New User </button>
 <div class="example-container mat-elevation-z8">
   <mat-table [dataSource]="users">
-    <ng-container matColumnDef="title">
+    <ng-container matColumnDef="title" class="smallest_width">
       <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
       <mat-cell *matCellDef="let element">
         <span class="mobile-label">Title:</span>
@@ -41,7 +41,7 @@
       </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="email">
+    <ng-container matColumnDef="email" width="50%">
       <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
       <mat-cell *matCellDef="let element">
         <span class="mobile-label">Email:</span>
@@ -77,14 +77,11 @@
       </mat-cell>
     </ng-container> -->
 
-    <ng-container matColumnDef="actions">
-      <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+    <ng-container matColumnDef="actions" class="smallest_width_right">
+      <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
       <mat-cell *matCellDef="let element">
         <button mat-icon-button color="primary" (click)="redirectToView(element.id)">
-          <mat-icon class="mat-18">edit</mat-icon>
-        </button>
-        <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
-          <mat-icon class="mat-18">delete</mat-icon>
+          <mat-icon class="mat-18">reorder</mat-icon>
         </button>
       </mat-cell>
     </ng-container>
@@ -101,4 +98,5 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
+
 </div>

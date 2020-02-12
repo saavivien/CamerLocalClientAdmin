@@ -24,7 +24,7 @@ import {
 import {
   MatTableModule,
   MatButtonModule,
-  MatIconModule
+  MatIconModule,
 }
   from '@angular/material';
 import { PagesModule } from './pages/pages.module';

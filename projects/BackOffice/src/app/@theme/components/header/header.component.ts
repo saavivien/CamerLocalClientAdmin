@@ -11,6 +11,8 @@ import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil, filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { BaseService } from '../../../services/base.service';
+import { UserResource } from '../../../models/user.model';
 
 @Component({
   selector: 'ngx-header',
@@ -22,6 +24,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
   userPictureOnly: boolean = false;
   user: any;
+  picture: string;
 
   themes = [
     {
@@ -52,13 +55,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private layoutService: LayoutService,
     private breakpointService: NbMediaBreakpointsService,
     private authService: NbAuthService,
-    private router: Router) {
+    private router: Router,
+    private baseService: BaseService) {
     this.authService.onTokenChange()
       .subscribe((token: NbAuthOAuth2JWTToken) => {
 
         if (token.isValid()) {
           this.user = token.getAccessTokenPayload(); // here we receive a payload from the token and assigns it to our `user` variable 
-          console.log("=============" + JSON.stringify(this.user) + "======================");
         }
 
       });
@@ -101,7 +104,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
             break;
           }
           case 'Profile': {
-            this.router.navigate(['pages/users/admin_edition', { id: this.user.userId }]);
+            this.router.navigate(['pages/users/admin_edition', { id: this.user.userId }]
+            );
             break;
           }
           default: {
@@ -110,6 +114,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
           }
         }
       })
+
+    this.baseService.getData('api/user', this.user.userId).subscribe((res: UserResource) => {
+      this.picture = res.image;
+    })
   }
 
   ngOnDestroy() {

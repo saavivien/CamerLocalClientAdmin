@@ -10,6 +10,7 @@ export class BaseService {
 
   constructor(private http: HttpClient) { }
 
+  //Generic methods
   public getData = (route: string, id?: number) => {
     return this.http.get(this.createCompleteRoute(environment.urlAddress, route, id));
   }
@@ -26,13 +27,17 @@ export class BaseService {
     return this.http.delete(this.createCompleteRoute(environment.urlAddress, route));
   }
 
-  //specific method
+  //specific method for users
   public getUserByEmail = (route: string, email: string) => {
     return this.http.get(this.createCompleteRoute(environment.urlAddress, route, email));
   }
 
   public createUserWithProfile = (route: string, body) => {
     return this.http.post(this.createCompleteRoute(environment.urlAddress, route), body);
+  }
+
+  public updateUserWithProfile = (route: string, body, id?: Number) => {
+    return this.http.put(this.createCompleteRoute(environment.urlAddress, route, id), body);
   }
 
   //utils
