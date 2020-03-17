@@ -14,16 +14,22 @@ import { RoleAuthService } from '../_utils/role-auth.service';
   `,
 })
 export class PagesComponent implements OnInit {
-  public menu: any = MENU_ITEMS;
+  public menu: any;
   constructor(private roleAuthService: RoleAuthService) {
 
   }
   ngOnInit(): void {
-
-    if (!this.roleAuthService.isAdmin()) {
-      this.menu = MENU_ITEMS.filter(m => m.title != 'Users')
-    } else {
-      this.menu = MENU_ITEMS
+    this.menu = MENU_ITEMS;
+    // hide some menu according to the role of connected user
+    for (let i = 0; i < this.menu.length; i++) {
+      if (this.menu[i].title == 'Users') {
+        if (!this.roleAuthService.isAdmin()) {
+          this.menu[i].children[0].hidden = true;
+        } else {
+          this.menu[i].children[0].hidden = false;
+        }
+        return;
+      }
     }
   }
 }
