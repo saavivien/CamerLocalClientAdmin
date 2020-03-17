@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import *as utils from './../_utils/camer.local.utils';
+import *as utils from '../_utils/camer.local.utils';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

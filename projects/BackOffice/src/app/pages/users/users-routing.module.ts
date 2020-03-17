@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { UsersComponent } from './users.component';
 import { AdministratorComponent } from './administrator/administrator.component';
 import { AdminAddUpdateComponent } from './admin-add-update/admin-add-update.component';
+import { RoleName } from '../../_models/role.model';
+import { AuthGuardService } from '../../_utils/auth-guard.service';
 
 const routes: Routes = [{
   path: '',
@@ -19,11 +21,7 @@ const routes: Routes = [{
     {
       path: 'admin_edition/:id',
       component: AdminAddUpdateComponent,
-    },
-    {
-      path: 'admin_edition/:user_email',
-      component: AdminAddUpdateComponent,
-    },
+    }
   ],
 }];
 

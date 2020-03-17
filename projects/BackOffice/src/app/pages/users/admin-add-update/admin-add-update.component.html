@@ -19,7 +19,7 @@
                 </mat-option>
               </mat-select>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" *ngIf="isAdmin">
               <mat-label class="label" for="title-input">Role </mat-label>
               <mat-select multiple id="title-input" placeholder="select a role" class="example-items-col"
                 formControlName="roles" [compareWith]="compare" [disabled]="!editable">

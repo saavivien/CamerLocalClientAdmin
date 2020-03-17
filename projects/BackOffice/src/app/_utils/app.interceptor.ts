@@ -7,7 +7,7 @@ import {
     HttpInterceptor,
     HttpResponse,
 } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Observable, throwError } from "rxjs";
 import { NbAuthService, NbAuthOAuth2JWTToken } from '@nebular/auth';
 import { BACKEND_API_AUTHENTICATE_PATH } from './camer.local.utils';
 
@@ -38,15 +38,20 @@ export class CamerLocalInterceptor implements HttpInterceptor {
                         console.log("api call success :", event);
                     }
                 },
-                error => {
+                err => {
                     //logging the http response to browser's console in case of a failuer
-                    if (event instanceof HttpResponse) {
-                        console.log("api call error :", event);
+                    if ([401, 403].indexOf(err.status) !== -1) {
+                        // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
+                        // this.authService.logout('myAuthStrategy')
+                        // location.reload(true);
                     }
+                    const error = err.error.message || err.statusText;
+                    return throwError(error);
                 }
             )
         );
     }
+
     private getAccessToken(): NbAuthOAuth2JWTToken {
         let accesTokenStringValue = null;
         this.authService.getToken()

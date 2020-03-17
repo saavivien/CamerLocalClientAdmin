@@ -1,6 +1,7 @@
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { AuthGuardService } from './auth-guard.service';
+import { AuthGuardService } from './_utils/auth-guard.service';
+import { RoleName } from './_models/role.model';
 
 const routes: Routes = [
   {
@@ -9,12 +10,17 @@ const routes: Routes = [
   },
   {
     path: 'pages',
-    canActivate: [AuthGuardService], // here we tell Angular to check the access with our AuthGuard
     loadChildren: () => import('./pages/pages.module')
       .then(m => m.PagesModule),
   },
-  { path: '', redirectTo: 'pages', pathMatch: 'full' },
-  { path: '**', redirectTo: 'pages' },
+  {
+    path: '',
+    redirectTo: 'pages', pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: 'pages'
+  },
 ];
 
 const config: ExtraOptions = {

@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 // import { NbDi:alogRef } from '@nebular/theme';
 import { MustMatch } from '../../../_utils/must-match.validator';
-import { BaseService } from '../../../services/base.service';
-import { RoleResult, RoleModel } from '../../../models/role.model';
-import { UserResource, UserModel } from '../../../models/user.model';
+import { BaseService } from '../../../_services/base.service';
+import { RoleResult, RoleModel } from '../../../_models/role.model';
+import { UserResource, UserModel } from '../../../_models/user.model';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router'
 import { NbAuthService, NbAuthResult, NbAuthOAuth2JWTToken } from '@nebular/auth';
+import { RoleAuthService } from '../../../_utils/role-auth.service';
 
 @Component({
   selector: 'ngx-admin-add-update',
@@ -22,6 +23,7 @@ export class AdminAddUpdateComponent implements OnInit {
   private editable: boolean;
   private connectedUser: any;
   private pageTitle: String;
+  private isAdmin: boolean;
   //image
   private selectedImageFile: File;
   private imageUrl: any;
@@ -37,7 +39,9 @@ export class AdminAddUpdateComponent implements OnInit {
     private location: Location,
     private route: ActivatedRoute,
     private router: Router,
-    private authService: NbAuthService) {
+    private authService: NbAuthService,
+    private roleAuthService: RoleAuthService
+  ) {
     this.getAllRoles();
   }
 
@@ -58,7 +62,6 @@ export class AdminAddUpdateComponent implements OnInit {
         this.repoService.getData('api/user', params.id).subscribe((res: UserResource) => {
           this.setFormValue(res.user);
           this.imageUrl = res.image;
-          console.log('================ test: ' + this.id + '===================')
         })
       }
       else {
@@ -68,6 +71,7 @@ export class AdminAddUpdateComponent implements OnInit {
         this.createForm();
       }
     })
+    this.isAdmin = this.roleAuthService.isAdmin();
   }
 
   public getAllRoles = () => {
@@ -83,12 +87,15 @@ export class AdminAddUpdateComponent implements OnInit {
     if (this.id) {
       user.id = this.id;
       formData.append("user", JSON.stringify(user));
-      formData.append("image", this.selectedImageFile);
+      //if the image has been changed
+      if (this.selectedImageFile) {
+        formData.append("image", this.selectedImageFile);
+      }
 
       this.repoService.updateUserWithProfile('api/user/userprofile', formData, this.id).subscribe((ur: UserResource) => {
         console.log('user' + ur.user.firstName + 'succesfully updated');
         //if the user edited is the connected user, he will have to login again since he can edit his email
-        if (user.email == this.connectedUser.user_name) {
+        if (this.id == this.connectedUser.userId) {
           this.authService.logout('myAuthStrategy')
             .subscribe((authResult: NbAuthResult) => {
               return this.router.navigate(['/auth/login']);

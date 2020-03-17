@@ -11,8 +11,8 @@ import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil, filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
-import { BaseService } from '../../../services/base.service';
-import { UserResource } from '../../../models/user.model';
+import { BaseService } from '../../../_services/base.service';
+import { UserResource } from '../../../_models/user.model';
 
 @Component({
   selector: 'ngx-header',

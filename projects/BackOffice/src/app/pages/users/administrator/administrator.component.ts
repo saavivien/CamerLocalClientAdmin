@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 // import { NbDialogService } from '@nebular/theme';
-import { BaseService } from '../../../services/base.service';
+import { BaseService } from '../../../_services/base.service';
 import { AdminAddUpdateComponent } from '../admin-add-update/admin-add-update.component';
-import { UserResult, UserModel } from '../../../models/user.model';
+import { UserResult, UserModel } from '../../../_models/user.model';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 

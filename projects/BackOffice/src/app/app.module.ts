@@ -37,7 +37,7 @@ import {
   NbAuthOAuth2JWTToken
 } from '@nebular/auth';
 import * as CamerLocalUtils from './_utils/camer.local.utils';
-import { AuthGuardService } from './auth-guard.service';
+import { AuthGuardService } from './_utils/auth-guard.service';
 
 
 const formSetting: any = {

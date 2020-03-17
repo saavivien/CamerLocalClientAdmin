@@ -14,3 +14,9 @@ export interface RoleResources {
 export interface RoleResult {
     _embedded: RoleResources
 }
+
+export enum RoleName {
+    admin = "ROLE_ADMIN",
+    agent = "ROLE_AGENT",
+    client = "ROLE_CLIENT",
+}

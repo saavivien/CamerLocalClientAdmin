@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { MENU_ITEMS } from './pages-menu';
+import { RoleAuthService } from '../_utils/role-auth.service';
 
 @Component({
   selector: 'ngx-pages',
@@ -12,7 +13,17 @@ import { MENU_ITEMS } from './pages-menu';
     </ngx-one-column-layout>
   `,
 })
-export class PagesComponent {
+export class PagesComponent implements OnInit {
+  public menu: any = MENU_ITEMS;
+  constructor(private roleAuthService: RoleAuthService) {
 
-  menu = MENU_ITEMS;
+  }
+  ngOnInit(): void {
+
+    if (!this.roleAuthService.isAdmin()) {
+      this.menu = MENU_ITEMS.filter(m => m.title != 'Users')
+    } else {
+      this.menu = MENU_ITEMS
+    }
+  }
 }

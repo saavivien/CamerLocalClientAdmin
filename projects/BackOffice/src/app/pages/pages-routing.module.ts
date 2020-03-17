@@ -5,10 +5,14 @@ import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ECommerceComponent } from './e-commerce/e-commerce.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
+import { AuthGuardService } from '../_utils/auth-guard.service';
+import { RoleName } from '../_models/role.model';
 
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
+  canActivate: [AuthGuardService],
+  data: { roles: [RoleName.agent, RoleName.admin] },
   children: [
     {
       path: 'dashboard',
@@ -27,11 +31,6 @@ const routes: Routes = [{
       path: 'layout',
       loadChildren: () => import('./layout/layout.module')
         .then(m => m.LayoutModule),
-    },
-    {
-      path: 'forms',
-      loadChildren: () => import('./forms/forms.module')
-        .then(m => m.FormsModule),
     },
     {
       path: 'ui-features',
@@ -62,11 +61,6 @@ const routes: Routes = [{
       path: 'editors',
       loadChildren: () => import('./editors/editors.module')
         .then(m => m.EditorsModule),
-    },
-    {
-      path: 'tables',
-      loadChildren: () => import('./tables/tables.module')
-        .then(m => m.TablesModule),
     },
     {
       path: 'miscellaneous',
